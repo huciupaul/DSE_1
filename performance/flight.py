@@ -127,7 +127,7 @@ class FlightMission:
     # ---------------------------------------------------------------------
     #  CORE MISSION BUILDER
     # ---------------------------------------------------------------------
-    def __pp_slices(self,
+    def __pp_slicer(self,
                phase_arr: np.ndarray,
                time_arr: np.ndarray) -> List[Tuple[Powerpoint, slice]]:
         """Return a list of (Powerpoint, slice) covering the whole mission."""
@@ -358,7 +358,7 @@ class FlightMission:
         eta_th_arr    = np.zeros_like(V_arr)
         eta_prop_arr  = np.zeros_like(V_arr)
 
-        for pp, sl in self.__pp_slices(phase_arr, time_arr):
+        for pp, sl in self.__pp_slicer(phase_arr, time_arr):
             if pp.power is not None:
                 # Powerpoint with power
                 Pr_arr[sl] = pp.power*self.ac.MAXC
