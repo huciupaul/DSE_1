@@ -1,0 +1,385 @@
+description: |-
+  ---------------------------------------------------------------------------
+    CTI File converted from Solution Object
+  ---------------------------------------------------------------------------
+
+generator: cti2yaml
+cantera-version: 3.0.0
+date: Sat, 27 Jan 2024 15:25:21 +0100
+input-files: [H2_pNOX_15_94_TC.cti]
+
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  elements: [N, H, O]
+  species: [N2, H2, H, O2, O, H2O, OH, H2O2, HO2, NO, N2O, N, NH, NNH, NH2]
+  kinetics: gas
+  reactions: all
+  state:
+    T: 300.0
+    P: 1.01325e+05
+
+species:
+- name: N2
+  composition: {N: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [3.53100528, -1.23660988e-04, -5.02999433e-07, 2.43530612e-09, -1.40881235e-12,
+      -1046.97628, 2.96747038]
+    - [2.95257637, 1.3969004e-03, -4.92631603e-07, 7.86010195e-11, -4.60755204e-15,
+      -923.948688, 5.87188762]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 3.621
+    well-depth: 97.53
+    polarizability: 1.76
+    rotational-relaxation: 4.0
+- name: H2
+  composition: {H: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.34433112, 7.98052075e-03, -1.9478151e-05, 2.01572094e-08, -7.37611761e-12,
+      -917.935173, 0.683010238]
+    - [2.93286575, 8.26608026e-04, -1.46402364e-07, 1.54100414e-11, -6.888048e-16,
+      -813.065581, -1.02432865]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 2.9200000000000004
+    well-depth: 38.0
+    polarizability: 0.7900000000000001
+    rotational-relaxation: 280.0
+- name: H
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [2.5, 0.0, 0.0, 0.0, 0.0, 2.547366e+04, -0.44668285]
+    - [2.5, 0.0, 0.0, 0.0, 0.0, 2.547366e+04, -0.44668285]
+  transport:
+    model: gas
+    geometry: atom
+    diameter: 2.05
+    well-depth: 145.0
+- name: O2
+  composition: {O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [3.78245636, -2.99673416e-03, 9.84730201e-06, -9.68129509e-09, 3.24372837e-12,
+      -1063.94356, 3.65767573]
+    - [3.66096065, 6.56365811e-04, -1.41149627e-07, 2.05797935e-11, -1.29913436e-15,
+      -1215.97718, 3.41536279]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 3.458
+    well-depth: 107.4
+    polarizability: 1.6
+    rotational-relaxation: 3.8
+- name: O
+  composition: {O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.1682671, -3.27931884e-03, 6.64306396e-06, -6.12806624e-09, 2.11265971e-12,
+      2.91222592e+04, 2.05193346]
+    - [2.54363697, -2.73162486e-05, -4.1902952e-09, 4.95481845e-12, -4.79553694e-16,
+      2.9226012e+04, 4.92229457]
+  transport:
+    model: gas
+    geometry: atom
+    diameter: 2.7500000000000004
+    well-depth: 80.0
+- name: H2O
+  composition: {H: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [4.1986352, -2.0364017e-03, 6.5203416e-06, -5.4879269e-09, 1.771968e-12,
+      -3.0293726e+04, -0.84900901]
+    - [2.6770389, 2.9731816e-03, -7.7376889e-07, 9.4433514e-11, -4.2689991e-15,
+      -2.9885894e+04, 6.88255]
+  transport:
+    model: gas
+    geometry: nonlinear
+    diameter: 2.6050000000000004
+    well-depth: 572.4
+    dipole: 1.8440005262719967
+    rotational-relaxation: 4.0
+- name: OH
+  composition: {H: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [3.99198424, -2.40106655e-03, 4.61664033e-06, -3.87916306e-09, 1.36319502e-12,
+      3368.89836, -0.103998477]
+    - [2.83853033, 1.10741289e-03, -2.94000209e-07, 4.20698729e-11, -2.4228989e-15,
+      3697.80808, 5.84494652]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 2.7500000000000004
+    well-depth: 80.0
+- name: H2O2
+  composition: {H: 2, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [4.31515149, -8.47390622e-04, 1.76404323e-05, -2.26762944e-08, 9.08950158e-12,
+      -1.77067437e+04, 3.27373319]
+    - [4.57977305, 4.05326003e-03, -1.2984473e-06, 1.982114e-10, -1.13968792e-14,
+      -1.80071775e+04, 0.664970694]
+  transport:
+    model: gas
+    geometry: nonlinear
+    diameter: 3.458
+    well-depth: 107.4
+    rotational-relaxation: 3.8
+- name: HO2
+  composition: {H: 1, O: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [300.0, 1000.0, 4000.0]
+    data:
+    - [4.30179807, -4.74912097e-03, 2.11582905e-05, -2.42763914e-08, 9.29225225e-12,
+      264.018485, 3.7166622]
+    - [4.17228741, 1.88117627e-03, -3.46277286e-07, 1.94657549e-11, 1.76256905e-16,
+      31.0206839, 2.95767672]
+  transport:
+    model: gas
+    geometry: nonlinear
+    diameter: 3.458
+    well-depth: 107.4
+    rotational-relaxation: 1.0
+- name: NO
+  composition: {N: 1, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.21859896, -4.63988124e-03, 1.10443049e-05, -9.34055507e-09, 2.80554874e-12,
+      9845.09964, 2.28061001]
+    - [3.26071234, 1.19101135e-03, -4.29122646e-07, 6.94481463e-11, -4.03295681e-15,
+      9921.43132, 6.36900518]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 3.621
+    well-depth: 97.5
+    polarizability: 1.76
+    rotational-relaxation: 4.0
+- name: N2O
+  composition: {N: 2, O: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.2571502, 0.011304728, -1.3671319e-05, 9.6819803e-09, -2.9307182e-12,
+      8741.7746, 10.757992]
+    - [4.8230729, 2.6270251e-03, -9.5850872e-07, 1.6000712e-10, -9.7752302e-15,
+      8073.4047, -2.2017208]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 3.8280000000000003
+    well-depth: 232.4
+    rotational-relaxation: 1.0
+- name: N
+  composition: {N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [2.5, 0.0, 0.0, 0.0, 0.0, 5.6104638e+04, 4.1939088]
+    - [2.4159429, 1.7489065e-04, -1.1902369e-07, 3.0226244e-11, -2.0360983e-15,
+      5.6133775e+04, 4.6496095]
+  transport:
+    model: gas
+    geometry: atom
+    diameter: 3.2980000000000005
+    well-depth: 71.4
+- name: NH
+  composition: {H: 1, N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [3.49295037, 3.1179572e-04, -1.48906628e-06, 2.48167402e-09, -1.03570916e-12,
+      4.21059722e+04, 1.84834973]
+    - [2.78372644, 1.32985888e-03, -4.24785573e-07, 7.83494442e-11, -5.5045131e-15,
+      4.23461945e+04, 5.74084863]
+  transport:
+    model: gas
+    geometry: linear
+    diameter: 2.6500000000000004
+    well-depth: 80.0
+    rotational-relaxation: 4.0
+- name: NNH
+  composition: {H: 1, N: 2}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [4.25474632, -3.45098298e-03, 1.37788699e-05, -1.33263744e-08, 4.41023397e-12,
+      2.8793208e+04, 3.28551762]
+    - [3.42744423, 3.23295234e-03, -1.17296299e-06, 1.90508356e-10, -1.14491506e-14,
+      2.87676026e+04, 6.39209233]
+  transport:
+    model: gas
+    geometry: nonlinear
+    diameter: 3.798
+    well-depth: 71.4
+    rotational-relaxation: 1.0
+- name: NH2
+  composition: {H: 2, N: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [4.19198016, -2.04602827e-03, 6.67756134e-06, -5.24907235e-09, 1.55589948e-12,
+      2.11863286e+04, -0.0904785244]
+    - [2.59263049, 3.47683597e-03, -1.08271624e-06, 1.49342558e-10, -5.75241187e-15,
+      2.1573732e+04, 7.90565351]
+  transport:
+    model: gas
+    geometry: nonlinear
+    diameter: 2.6500000000000004
+    well-depth: 80.0
+    polarizability: 2.2600000000000002
+    rotational-relaxation: 4.0
+
+reactions:
+- equation: H2 + M <=> 2 H + M  # Reaction 1
+  type: three-body
+  rate-constant: {A: 4.577e+19, b: -1.4, Ea: 1.044e+05}
+  efficiencies: {H2: 2.5, H2O: 12.0}
+- equation: H2 + O <=> H + OH  # Reaction 2
+  rate-constant: {A: 5.08e+04, b: 2.67, Ea: 6292.0}
+- equation: H2 + OH <=> H + H2O  # Reaction 3
+  rate-constant: {A: 4.38e+13, b: 0.0, Ea: 6990.0}
+- equation: H + O2 <=> O + OH  # Reaction 4
+  rate-constant: {A: 1.14e+14, b: 0.0, Ea: 1.5286e+04}
+- equation: H + OH + M <=> H2O + M  # Reaction 5
+  type: three-body
+  rate-constant: {A: 3.5e+22, b: -2.0, Ea: 0.0}
+  efficiencies: {H2: 0.73, H2O: 3.65}
+- equation: H2O + O <=> 2 OH  # Reaction 6
+  rate-constant: {A: 6.7e+07, b: 1.704, Ea: 1.49868e+04}
+- equation: H + O + M <=> OH + M  # Reaction 7
+  type: three-body
+  rate-constant: {A: 4.714e+18, b: -1.0, Ea: 0.0}
+  efficiencies: {H2: 2.5, H2O: 12.0}
+- equation: H2O2 (+M) <=> 2 OH (+M)  # Reaction 8
+  type: falloff
+  low-P-rate-constant: {A: 2.49e+24, b: -2.3, Ea: 4.8749e+04}
+  high-P-rate-constant: {A: 2.0e+12, b: 0.9, Ea: 4.8749e+04}
+  Troe: {A: 0.43, T3: 1.0e-30, T1: 1.0000000000000002e+30, T2:  1e-18}
+  efficiencies: {H2: 3.7, H2O: 7.65, N2: 1.5, O2: 1.2}
+- equation: H + H2O2 <=> H2O + OH  # Reaction 9
+  rate-constant: {A: 2.41e+13, b: 0.0, Ea: 3970.0}
+- equation: H2O2 + O <=> HO2 + OH  # Reaction 10
+  rate-constant: {A: 9.55e+06, b: 2.0, Ea: 3970.0}
+- equation: H2O2 + OH <=> H2O + HO2  # Reaction 11
+  rate-constant: {A: 1.74e+12, b: 0.0, Ea: 318.0}
+  duplicate: true
+- equation: H2O2 + OH <=> H2O + HO2  # Reaction 12
+  rate-constant: {A: 7.59e+13, b: 0.0, Ea: 7269.0}
+  duplicate: true
+- equation: H + HO2 <=> 2 OH  # Reaction 13
+  rate-constant: {A: 7.079e+13, b: 0.0, Ea: 295.0}
+- equation: H + HO2 <=> H2 + O2  # Reaction 14
+  rate-constant: {A: 1.1402e+10, b: 1.0827, Ea: 553.78}
+- equation: HO2 + O <=> O2 + OH  # Reaction 15
+  rate-constant: {A: 3.25e+13, b: 0.0, Ea: 0.0}
+- equation: HO2 + OH <=> H2O + O2  # Reaction 16
+  rate-constant: {A: 7.0e+12, b: 0.0, Ea: -1092.96}
+  duplicate: true
+- equation: HO2 + OH <=> H2O + O2  # Reaction 17
+  rate-constant: {A: 4.5e+14, b: 0.0, Ea: 1.09296e+04}
+  duplicate: true
+- equation: 2 HO2 <=> H2O2 + O2  # Reaction 18
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 1.104088e+04}
+  duplicate: true
+- equation: 2 HO2 <=> H2O2 + O2  # Reaction 19
+  rate-constant: {A: 1.9e+11, b: 0.0, Ea: -1408.925}
+  duplicate: true
+- equation: H + O2 (+M) <=> HO2 (+M)  # Reaction 20
+  type: falloff
+  low-P-rate-constant: {A: 1.737e+19, b: -1.23, Ea: 0.0}
+  high-P-rate-constant: {A: 4.65e+12, b: 0.44, Ea: 0.0}
+  Troe: {A: 0.67, T3: 1.0e-30, T1: 1.0000000000000002e+30, T2: 1.0e+30}
+  efficiencies: {H2: 1.3, H2O: 10.0}
+- equation: O + OH + M <=> HO2 + M  # Reaction 21
+  type: three-body
+  rate-constant: {A: 1.0e+16, b: 0.0, Ea: 0.0}
+- equation: H + NH2 <=> H2 + NH  # Reaction 22
+  rate-constant: {A: 4.0e+13, b: 0.0, Ea: 3650.0}
+- equation: NH2 + O <=> NH + OH  # Reaction 23
+  rate-constant: {A: 6.8e+12, b: 0.0, Ea: 0.0}
+- equation: NH2 + OH <=> H2O + NH  # Reaction 24
+  rate-constant: {A: 4.0e+06, b: 2.0, Ea: 1000.0}
+- equation: N + NH2 <=> 2 H + N2  # Reaction 25
+  rate-constant: {A: 7.0e+13, b: 0.0, Ea: 0.0}
+- equation: NH2 + NO <=> NNH + OH  # Reaction 26
+  rate-constant: {A: 6.2e+15, b: -1.15, Ea: 2518.0}
+- equation: H + NH <=> H2 + N  # Reaction 27
+  rate-constant: {A: 3.0e+13, b: 0.0, Ea: 0.0}
+- equation: NH + O <=> H + NO  # Reaction 28
+  rate-constant: {A: 9.2e+13, b: 0.0, Ea: 0.0}
+- equation: NH + OH <=> H2O + N  # Reaction 29
+  rate-constant: {A: 5.0e+11, b: 0.5, Ea: 2000.0}
+- equation: NH + OH <=> H2 + NO  # Reaction 30
+  rate-constant: {A: 2.0e+13, b: 0.0, Ea: 0.0}
+- equation: NH + O2 <=> NO + OH  # Reaction 31
+  rate-constant: {A: 1.3e+06, b: 1.5, Ea: 100.0}
+- equation: NH + NO <=> N2 + OH  # Reaction 32
+  rate-constant: {A: 2.2e+13, b: -0.23, Ea: 0.0}
+- equation: N + OH <=> H + NO  # Reaction 33
+  rate-constant: {A: 3.8e+13, b: 0.0, Ea: 0.0}
+- equation: N + O2 <=> NO + O  # Reaction 34
+  rate-constant: {A: 6.4e+09, b: 1.0, Ea: 6280.0}
+- equation: N + NO <=> N2 + O  # Reaction 35
+  rate-constant: {A: 3.3e+12, b: 0.3, Ea: 0.0}
+- equation: NNH <=> H + N2  # Reaction 36
+  rate-constant: {A: 1.0e+07, b: 0.0, Ea: 0.0}
+- equation: H + NNH <=> H2 + N2  # Reaction 37
+  rate-constant: {A: 1.0e+14, b: 0.0, Ea: 0.0}
+- equation: NNH + O <=> H + N2O  # Reaction 38
+  rate-constant: {A: 1.9e+14, b: -0.274, Ea: -22.0}
+- equation: NNH + O <=> NH + NO  # Reaction 39
+  rate-constant: {A: 5.2e+11, b: 0.388, Ea: -409.0}
+- equation: NNH + OH <=> H2O + N2  # Reaction 40
+  rate-constant: {A: 5.0e+13, b: 0.0, Ea: 0.0}
+- equation: NNH + O2 <=> HO2 + N2  # Reaction 41
+  rate-constant: {A: 5.6e+14, b: -0.385, Ea: -13.0}
+- equation: N2O (+M) <=> N2 + O (+M)  # Reaction 42
+  type: falloff
+  low-P-rate-constant: {A: 4.0e+14, b: 0.0, Ea: 5.66e+04}
+  high-P-rate-constant: {A: 1.3e+12, b: 0.0, Ea: 6.257e+04}
+  efficiencies: {H2O: 12.0, N2: 1.7, O2: 1.4}
+- equation: H + N2O <=> N2 + OH  # Reaction 43
+  rate-constant: {A: 3.3e+10, b: 0.0, Ea: 4729.0}
+  duplicate: true
+- equation: H + N2O <=> N2 + OH  # Reaction 44
+  rate-constant: {A: 4.4e+14, b: 0.0, Ea: 1.9254e+04}
+  duplicate: true
+- equation: NH + NO <=> H + N2O  # Reaction 45
+  rate-constant: {A: 3.19e+14, b: -0.455, Ea: 0.0}
+- equation: N2O + O <=> 2 NO  # Reaction 46
+  rate-constant: {A: 2.9e+13, b: 0.0, Ea: 2.315e+04}
+- equation: N2O + O <=> N2 + O2  # Reaction 47
+  rate-constant: {A: 1.4e+12, b: 0.0, Ea: 1.08e+04}
