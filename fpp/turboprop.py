@@ -2,24 +2,38 @@ import numpy as np
 from typing import Tuple
 
 # Local imports
-from common.constants import A_inlet, R_AIR
+# from common.constants import R_AIR, MAXC
+
+# Global imports
+import sys
+import os
+
+from global_constants import R_AIR, MAXC
+from global_constants import mdot_air as mfa
+from global_constants import mdot_fuel as mff
+from global_constants import mdot_NOx as mfn
+from global_constants import T_peak_interpolator as tcc
+from global_constants import TOGA
+
 
 class Turboprop:
     """Full model of a turboprop engine. The model is based on the following
     assumptions:
-    - Brayton cycle
-    - Constant inlet, compressor, combustion chamber, and turbine efficiencies
-    - Constant specific heat ratio of air and combustion products
-    - Constant specific heat of combustion products
-    - Constant pressure ratio across the compressor and combustion chamber
-    - Constant turbine inlet temperature
-    - ISA atmosphere
-    - No bleed air extraction
-    - No variable geometry
+        - Brayton cycle
+        - Constant inlet, compressor, combustion chamber, and turbine efficiencies
+        - Constant specific heat ratio of air and combustion products
+        - Constant specific heat of combustion products
+        - Constant pressure ratio across the compressor and combustion chamber
+        - Constant turbine inlet temperature
+        - ISA atmosphere
+        - No bleed air extraction
+        - No variable geometry
     """
     def __init__(
         self,
         name: str,
+        delta_mdot: float, # [kg/s] Range of air mass flow rate through the engine
+        mdot_min: float, # [kg/s] Minimum air mass flow rate through the engine
         eta_in: float,  # [-] Inlet efficiency
         PI_comp: float, # [-] Compressor pressure ratio
         eta_comp: float, # [-] Compressor efficiency
@@ -36,6 +50,8 @@ class Turboprop:
     ) -> None:
         
         self.name = name
+        self.delta_mdot = delta_mdot
+        self.mdot_min = mdot_min
         self.eta_in = eta_in
         self.PI_comp = PI_comp
         self.eta_comp = eta_comp
@@ -182,12 +198,12 @@ class Turboprop:
         
         # Eqn. H-40, Torenbeek, pp. 569, constant adjusted for SI units
         C_p = 2.41011428486284326e-8*((phi-mu-kappa/self.eta_comp)/(self.eta_turb*G-0.28*M0**2/self.eta_turb))
-        C_p = np.clip(C_p, 0, None) # Avoid negative values
+        C_p = np.clip(C_p, 0, None)*2 # Avoid negative values and two engines
         
         return C_p
     
     @staticmethod
-    def __eta_prop(
+    def _eta_prop(
         M0: np.ndarray,
         eta_prop_max: float = 0.85
     ):
@@ -229,18 +245,60 @@ class Turboprop:
         eta_th = Wdot_gg/(mdot*c_pg*(T04-T03))
         return eta_th
     
+    @staticmethod
+    def __mdot_air(
+        Pa_TOGA: float,
+        Pa: np.ndarray,
+        delta_mdot: float,
+        mdot_min: float
+    ):
+        """Linear model of the air mass flow rate."""
+        # mdot_air = (Pa/Pa_TOGA)*delta_mdot + mdot_min
+        mdot_air = mfa(Pa/2e3)
+        return mdot_air*2
+    
+    @staticmethod
+    def __mdot_NOx(
+        Pa: np.ndarray,
+        mdot_H2O: np.ndarray
+    ):
+        """Mass flow rate of NOx."""
+        mfh = np.clip(mdot_H2O, 0, 0.1*2)/2
+        p_ratio = np.clip(Pa/MAXC, 0.057, 1.04)
+        
+        mdot_NOx = mfn((mfh, p_ratio))  # Use the mass flow rate of water and the pressure ratio
+        mdot_NOx = np.where(Pa == 0.0, 0.0, mdot_NOx)
+        
+        # T = np.zeros_like(Pa)
+        # T = np.clip(tcc(Pa/2e3), 1570, 1740)  # Use the combustion chamber inlet temperature
+        # mdot_NOx = np.where(Pa>=TOGA*0.056, mfn((T, mfh/2)), 0)  # Use the combustion chamber inlet temperature and half the mass flow rate of water
+        return mdot_NOx*2  # Multiply by 2 for two engines
+    
     #  COMPUTE
-    def compute(self, T0: np.ndarray, P0: np.ndarray, rho0:np.ndarray, V0: np.ndarray, R_LHV: float=1.0, Pr: np.ndarray=None) -> Tuple[np.ndarray, np.ndarray]:
+    def compute(
+        self, 
+        T0: np.ndarray,
+        P0: np.ndarray,
+        rho0:np.ndarray,
+        V0: np.ndarray,
+        R_LHV: float=1.0,
+        Pr: np.ndarray=None,
+        Pa: np.ndarray=None,
+        mdot_H2O: np.ndarray=None
+        ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         """Compute the turboprop engine performance."""
         
         # Atmospheric conditions
         M0 = V0/np.sqrt(self.k_air*R_AIR*T0)
         
         # Propeller efficiency
-        eta_prop = self.__eta_prop(M0)
+        eta_prop = self._eta_prop(M0)
+        
+        if Pa is None:
+            Pa = Pr/eta_prop
         
         # Inlet mass flow rate
-        mdot_air = rho0 * V0 * A_inlet/eta_prop
+        mdot_air = self.__mdot_air(MAXC*1.04, Pa, self.delta_mdot, self.mdot_min)*2
         
         # Station 2 (compressor inlet)
         T02, P02 = self.__02(T0, P0, M0, self.eta_in, self.k_air)
@@ -250,16 +308,19 @@ class Turboprop:
 
         # Station 4 (combustion chamber exit)
         T04, P04 = self.__04(self.T04, P03, self.PI_cc)
+
+        # Power-specific fuel consumption
+        C_p = self.__PSFC(M0, T0)
         
-        if Pr is None:
-            # Mass flow rate of fuel
-            mdot_fuel = self.__mdot_fuel(mdot_air, self.c_pg, T03, T04, self.LHV_fuel, self.eta_cc)
-            
+        # Fuel flow rate
+        # mdot_fuel = C_p*R_LHV*Pa/(1-0.16) # Max engine installation losses
+        mdot_fuel = mff(Pa/2e3)*2
+        
+        # NOx emissions
+        if mdot_H2O is not None:
+            mdot_NOx = self.__mdot_NOx(Pa, mdot_H2O)
         else:
-            # Power-specific fuel consumption
-            C_p = self.__PSFC(M0, T0)
-            # Fuel flow rate
-            mdot_fuel = C_p*R_LHV*Pr/eta_prop
+            mdot_NOx = np.zeros_like(Pa)
 
         # Station 5 (turbine exit)
         T05, P05 = self.__05(mdot_air, mdot_fuel, self.c_pa, self.c_pg, T02, T03, T04, P04,
@@ -271,4 +332,4 @@ class Turboprop:
                                self.c_pg,
                                self.k_gas)
         
-        return mdot_fuel, eta_th, eta_prop
+        return mdot_fuel, eta_th, eta_prop, mdot_air, T03, P03, mdot_NOx
